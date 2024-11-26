@@ -294,7 +294,7 @@ def index():
 </html>
 
     """
-    return render_template_string(html_template, hostname=hostname, provision=pr                                     ovision, protocols=protocols, interfaces=interfaces, image=image)
+    return render_template_string(html_template, hostname=hostname, provision=provision, protocols=protocols, interfaces=interfaces, image=image)
 
 # Starta Flask-applikationen
 if __name__ == "__main__":
