@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Switch Information</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            display: block;
+            margin: 10px auto;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+<script>
+        // Funktion för att uppdatera innehållet var 10:e sekund
+        function refreshContent() {
+            fetch(window.location.href)
+                .then(response => response.text())
+                .then(data => {
+                    // Uppdatera hela sidinnehållet
+                    document.open();
+                    document.write(data);
+                    document.close();
+                })
+                .catch(error => console.error("Error fetching content:", error));
+        }
+
+        // Kör refreshContent varje 10:e sekund
+        setInterval(refreshContent, 5000);
+    </script>
+</head>
+<body>
+    <h1>Switch Information</h1>
+
+    <h2>Hostname: {{ hostname }}</h2>
+    <h2>Provision: {{ provision }}</h2>
+
+    <!-- Bilder ovanför Interfaces -->
+    <div>
+        <img src="{{ url_for('static', filename='img/switch.jpg') }}" alt="Image 1">
+    </div>
+
+    <h2>Interfaces</h2>
+    <table>
+        <tr>
+            <th>Interface Name</th>
+            <th>Description</th>
+            <th>IP Address</th>
+            <th>Status</th>
+        </tr>
+        {% for interface in interfaces %}
+        <tr>
+            <td>{{ interface.name }}</td>
+            <td>{{ interface.description }}</td>
+            <td>{{ interface.ip }}</td>
+            <td>{{ interface.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>VLANs</h2>
+    <table>
+        <tr>
+            <th>VLAN ID</th>
+            <th>Name</th>
+            <th>Associated Interfaces</th>
+        </tr>
+        {% for vlan in vlans %}
+        <tr>
+            <td>{{ vlan.id }}</td>
+            <td>{{ vlan.name }}</td>
+            <td>{{ vlan.interfaces }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h2>Routing Protocols</h2>
+    <table>
+        <tr>
+            <th>Protocol</th>
+            <th>Process ID</th>
+            <th>Router ID</th>
+            <th>Networks</th>
+        </tr>
+        {% for protocol in protocols %}
+        <tr>
+            <td>{{ protocol.protocol }}</td>
+            <td>{{ protocol.process_id }}</td>
+            <td>{{ protocol.router_id }}</td>
+            <td>
+                <ul>
+                {% for network in protocol.networks %}
+                    <li>{{ network.ip }} (Wildcard: {{ network.wildcard }}, Area: {{ network.area}})</li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
