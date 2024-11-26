@@ -283,7 +283,7 @@ def index():
             <td>
                 <ul>
                 {% for network in protocol.networks %}
-                    <li>{{ network.ip }} (Wildcard: {{ network.wildcard }}, Area                                     : {{ network.area}})</li>
+                    <li>{{ network.ip }} (Wildcard: {{ network.wildcard }}, Area: {{ network.area}})</li>
                 {% endfor %}
                 </ul>
             </td>
